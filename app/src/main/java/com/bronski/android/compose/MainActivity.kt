@@ -1,10 +1,12 @@
 package com.bronski.android.compose
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
@@ -34,11 +36,16 @@ class MainActivity : ComponentActivity() {
 
             ){
                 Text("Hello", modifier = Modifier
-                    .offset(20.dp,20.dp)
+                    .offset(20.dp, 20.dp)
                     .border(5.dp, Color.Yellow)
                     .padding(5.dp)
                     .border(10.dp, Color(R.color.purple_200))
                     .padding(10.dp)
+                    .clickable {
+                        Toast
+                            .makeText(this@MainActivity, "Text clicked", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 )
                 Spacer(modifier = Modifier.height(50.dp))
                 Text("Compose", color = Color.Yellow)
