@@ -287,6 +287,12 @@ fun ActionButton(
     }
 }
 
+@Composable
+fun HighlightSection(
+    modifier: Modifier = Modifier
+) {
+
+}
 
 
 
