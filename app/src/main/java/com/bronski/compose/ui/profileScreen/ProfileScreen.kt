@@ -9,6 +9,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,6 +33,9 @@ fun ProfileScreen() {
         TopBar(name = "Kirill Bronski")
         Spacer(modifier = Modifier.height(4.dp))
         ProfileSection()
+        Spacer(modifier = Modifier.height(25.dp))
+        ButtonSection(modifier = Modifier.fillMaxWidth())
+        Spacer(modifier = Modifier.height(25.dp))
 
     }
 }
@@ -193,7 +197,7 @@ fun ProfileDescription(
                         color = Color.Black,
                         fontWeight = FontWeight.Bold
                     )
-                    append("Followed by")
+                    append("Followed by ")
                     followedBy.forEachIndexed { index, name ->
                         pushStyle(boldStyle)
                         append(name)
@@ -211,7 +215,6 @@ fun ProfileDescription(
             )
         }
     }
-
 }
 
 @Composable
@@ -224,7 +227,30 @@ fun ButtonSection(
         horizontalArrangement = Arrangement.SpaceEvenly,
         modifier = modifier
     ) {
-
+        ActionButton(
+            text = "Following",
+            icon = Icons.Default.KeyboardArrowDown,
+            modifier = Modifier
+                .defaultMinSize(minWidth = minWidth)
+                .height(height = height)
+        )
+        ActionButton(
+            text = "Message",
+            modifier = Modifier
+                .defaultMinSize(minWidth = minWidth)
+                .height(height = height)
+        )
+        ActionButton(
+            text = "Email",
+            modifier = Modifier
+                .defaultMinSize(minWidth = minWidth)
+                .height(height = height)
+        )
+        ActionButton(
+            icon = Icons.Default.KeyboardArrowDown,
+            modifier = Modifier
+                .height(height = height)
+        )
     }
 }
 
@@ -244,7 +270,20 @@ fun ActionButton(
                 shape = RoundedCornerShape(5.dp)
             )
     ) {
-
+        if (text != null) {
+            Text(
+                text = text,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 14.sp
+            )
+        }
+        if (icon != null) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = Color.Black
+            )
+        }
     }
 }
 
