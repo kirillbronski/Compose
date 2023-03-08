@@ -3,6 +3,8 @@ package com.bronski.compose.ui.profileScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -22,10 +24,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bronski.compose.R
+import com.bronski.compose.data.local.StoryHighlight
 
 @Composable
 fun ProfileScreen() {
@@ -36,6 +40,32 @@ fun ProfileScreen() {
         Spacer(modifier = Modifier.height(25.dp))
         ButtonSection(modifier = Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.height(25.dp))
+        HighlightSection(
+            highlights = listOf(
+                StoryHighlight(
+                    image = painterResource(id = R.drawable.photo),
+                    text = "Youtube"
+                ),
+                StoryHighlight(
+                    image = painterResource(id = R.drawable.photo),
+                    text = "Telegram"
+                ),
+                StoryHighlight(
+                    image = painterResource(id = R.drawable.photo),
+                    text = "Q&A"
+                ),
+                StoryHighlight(
+                    image = painterResource(id = R.drawable.photo),
+                    text = "Discord"
+                ),
+                StoryHighlight(
+                    image = painterResource(id = R.drawable.photo),
+                    text = "Party"
+                ),
+            ), modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp)
+        )
 
     }
 }
@@ -289,9 +319,26 @@ fun ActionButton(
 
 @Composable
 fun HighlightSection(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    highlights: List<StoryHighlight>
 ) {
-
+    LazyRow(modifier = modifier) {
+        items(highlights.size) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .padding(15.dp)
+            ) {
+                RoundImage(image = highlights[it].image, modifier = Modifier.size(70.dp))
+                Text(
+                    text = highlights[it].text,
+                    overflow = TextOverflow.Ellipsis,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+    }
 }
 
 
