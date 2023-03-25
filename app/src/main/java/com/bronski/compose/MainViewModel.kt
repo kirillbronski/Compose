@@ -4,9 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bronski.compose.data.local.ScreenState
 import com.bronski.compose.domain.useCases.GetItemUseCase
 import com.bronski.compose.paging.DefaultPaginator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
 
@@ -36,5 +39,15 @@ class MainViewModel : ViewModel() {
             )
         }
     )
+
+    init {
+        loadNextItems()
+    }
+
+    fun loadNextItems() {
+        viewModelScope.launch {
+            paginator.loadNextItems()
+        }
+    }
 
 }
