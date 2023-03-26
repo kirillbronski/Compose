@@ -1,22 +1,83 @@
 package com.bronski.compose
 
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.bronski.compose.ui.Appbar
+import com.bronski.compose.ui.DrawerBody
+import com.bronski.compose.ui.DrawerHeader
 import com.bronski.compose.ui.theme.ComposeTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
+            ComposeTheme {
+                val context = LocalContext.current
+                val scaffoldState = rememberScaffoldState()
+                val scope = rememberCoroutineScope()
+                Scaffold(
+                    scaffoldState = scaffoldState,
+                    topBar = {
+                        Appbar(onNavigationIconClick = {
+                            scope.launch {
+                                scaffoldState.drawerState.open()
+                            }
+                        })
+                    },
+                    drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
+                    drawerContent = {
+                        DrawerHeader()
+                        DrawerBody(
+                            items = listOf(
+                                MenuItem(
+                                    id = "home",
+                                    title = "Home",
+                                    contentDescription = "Go to home screen",
+                                    icon = Icons.Default.Home
+                                ),
+                                MenuItem(
+                                    id = "settings",
+                                    title = "Settings",
+                                    contentDescription = "Go to settings screen",
+                                    icon = Icons.Default.Settings
+                                ),
+                                MenuItem(
+                                    id = "help",
+                                    title = "Help",
+                                    contentDescription = "Go to help screen",
+                                    icon = Icons.Default.Info
+                                ),
+                            ),
+                            onItemClick = {
+                                Toast.makeText(
+                                    context,
+                                    "Clicked on ${it.title}",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                        )
+                    }
+                ) {
+                    it
+                }
+            }
         }
     }
 }
