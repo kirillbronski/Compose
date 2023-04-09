@@ -1,42 +1,45 @@
 package com.bronski.compose
 
-import android.media.Image
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import coil.compose.AsyncImage
 import com.bronski.compose.ui.theme.ComposeTheme
+import dagger.hilt.android.AndroidEntryPoint
 import net.datafaker.Faker
-import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val faker = Faker(Locale("RU"))
+    @Inject
+    lateinit var faker: Faker
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeTheme {
-
+                Greeting(name = faker.name().firstName(), image = faker.avatar().image())
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun Greeting(name: String, image: String) {
+    Text(text = "Hello $name!", textAlign = TextAlign.Center)
+    AsyncImage(model = image, contentDescription = "Avatar")
+
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     ComposeTheme {
-        Greeting("Android")
+        //Greeting("Android")
     }
 }
