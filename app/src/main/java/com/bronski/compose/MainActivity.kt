@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeTheme {
-                Greeting(name = faker.name().firstName(), image = faker.avatar().image())
+                NestedScrolling()
             }
         }
     }
