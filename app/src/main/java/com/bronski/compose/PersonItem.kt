@@ -1,6 +1,10 @@
 package com.bronski.compose
 
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 
@@ -43,6 +48,10 @@ fun PersonItem(
 
     val density = LocalDensity.current
 
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
+
     Card(
         elevation = 4.dp,
         modifier = Modifier.onSizeChanged {
@@ -51,11 +60,18 @@ fun PersonItem(
     ) {
         Box(modifier = Modifier
             .fillMaxWidth()
+            .indication(interactionSource, LocalIndication.current)
             .pointerInput(true) {
                 detectTapGestures(
                     onLongPress = {
                         isContextMenuVisible = true
                         pressOffSet = DpOffset(it.x.toDp(), it.y.toDp())
+                    },
+                    onPress = {
+                        val press = PressInteraction.Press(it)
+                        interactionSource.emit(press)
+                        tryAwaitRelease()
+                        interactionSource.emit(PressInteraction.Release(press))
                     }
                 )
             }
@@ -65,7 +81,10 @@ fun PersonItem(
         }
         DropdownMenu(
             expanded = isContextMenuVisible,
-            onDismissRequest = { isContextMenuVisible = false }
+            onDismissRequest = { isContextMenuVisible = false },
+            offset = pressOffSet.copy(
+                y = pressOffSet.y - itemHeight
+            )
         ) {
             dropDownItems.forEach { item ->
                 DropdownMenuItem(
