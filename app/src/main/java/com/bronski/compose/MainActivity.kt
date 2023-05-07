@@ -3,11 +3,15 @@ package com.bronski.compose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import coil.compose.AsyncImage
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bronski.compose.ui.theme.ComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import net.datafaker.Faker
@@ -23,23 +27,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeTheme {
-                Greeting(name = faker.name().firstName(), image = faker.avatar().image())
+                val viewModel = viewModel<MainViewModel>()
+                //val composeColor = viewModel.composeColor
+                val flowColor by viewModel.color.collectAsState()
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            Color(
+                                flowColor
+                            )
+                        )
+                        .clickable {
+                            viewModel.generateNewColor()
+                        }
+                )
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, image: String) {
-    Text(text = "Hello $name!", textAlign = TextAlign.Center)
-    AsyncImage(model = image, contentDescription = "Avatar")
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ComposeTheme {
-        //Greeting("Android")
     }
 }
