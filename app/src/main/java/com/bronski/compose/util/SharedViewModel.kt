@@ -1,4 +1,4 @@
-package com.bronski.compose
+package com.bronski.compose.util
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

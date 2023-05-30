@@ -23,7 +23,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeTheme {
-                NavigationArgsSample()
+                //NavigationArgsSample()
+                //SharedViewModelSample()
+                //StatefulDependencySample()
+                //AppRoot()
+                PersistentStorageSample()
             }
         }
     }

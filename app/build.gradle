@@ -64,6 +64,9 @@ dependencies {
     kapt "com.google.dagger:hilt-compiler:2.45"
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 
+    implementation 'com.squareup.moshi:moshi:1.14.0'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.14.0'
+
     // Permission
     //implementation 'com.google.accompanist:accompanist-permission:0.21.1-beta'
     implementation 'com.google.accompanist:accompanist-permissions:0.29.2-rc'
