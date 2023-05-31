@@ -8,13 +8,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
+import com.bronski.compose.playback.AudioPlayerImpl
+import com.bronski.compose.recorder.AudioRecorder
+import com.bronski.compose.recorder.AudioRecorderImpl
 import com.bronski.compose.ui.theme.ComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import net.datafaker.Faker
+import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val recorder by lazy {
+        AudioRecorderImpl(applicationContext)
+    }
+
+    private val player by lazy {
+        AudioPlayerImpl(applicationContext)
+    }
+
+    private var audiFile: File? = null
 
     @Inject
     lateinit var faker: Faker
@@ -23,7 +37,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeTheme {
-                Greeting(name = faker.name().firstName(), image = faker.avatar().image())
+
             }
         }
     }
